@@ -32,11 +32,12 @@ private:
         int i = 1;
         int currentIndex = 1;
         while (nodes > 0) {
-            long nodesInLevel = random() % nodes + 1;
+            long nodesInLevel = rand() % nodes + 1;
             nodes -= nodesInLevel;
             for (int j = 0; j < nodesInLevel; ++j) {
                 levels[i].push_back(currentIndex++);
             }
+            i++;
         }
         return levels;
     }
@@ -45,16 +46,71 @@ private:
         return rand() % (max - min + 1) + min;
     }
 
+    bool isEdge() {
+        return randomizeFromRange(100, 0) < EDGE_PERCENTAGE;
+    }
+
+    int **randomizeConnections(const int nodes, int **matrix, const std::map<int, std::list<int>> &levels) {
+        int **matrixCopy = matrix;
+        for (int i = 1; i < levels.size(); i++) {
+            auto topLevel = levels.at(i - 1);
+            for (auto &tl:topLevel) {
+                const auto &lowerLevel = levels.at(i);
+                for (auto &ll:lowerLevel) {
+                    if (isEdge()) {
+                        matrixCopy[tl][ll] = 1;
+                    }
+                }
+            }
+        }
+        return matrixCopy;
+    }
+
+    void coverIsolatedNode(const int nodes, int **matrix) {
+        std::list<int> indexes;
+        for (int i = 1; i < nodes; ++i) {
+            int sum = 0;
+            for (int j = 0; j < nodes; ++j) {
+                sum += matrix[j][i];
+            }
+            if (sum < 1) {
+                std::cout << "Isolated node: " << i << std::endl;
+                randomizeNewConnection(matrix, i);
+            }
+        }
+    }
+
+    void randomizeNewConnection(int **matrix, int index) {
+        int upperNodeIndex = randomizeFromRange(index - 1, 0);
+        matrix[upperNodeIndex][index] = 1;
+    }
+
 public:
     DAGenerator() {
-        srand(time(0));
+        srand(time(nullptr));
     };
 
     void generate(int nodes) {
         int **adjustmentMatrix = initializeMatrix(nodes);
         auto levels = randomizeLevels(nodes);
+        adjustmentMatrix = randomizeConnections(nodes, adjustmentMatrix, levels);
 
+        std::cout << "Levels: " << levels.size() << std::endl;
 
+        for (int i = 0; i < nodes; ++i) {
+            for (int j = 0; j < nodes; ++j) {
+                std::cout << adjustmentMatrix[i][j] << " ";
+            }
+            std::cout << endl;
+        }
+        coverIsolatedNode(nodes, adjustmentMatrix);
+        std::cout << std::endl;
+        for (int i = 0; i < nodes; ++i) {
+            for (int j = 0; j < nodes; ++j) {
+                std::cout << adjustmentMatrix[i][j] << " ";
+            }
+            std::cout << endl;
+        }
     }
 };
 
