@@ -5,15 +5,21 @@
 #ifndef TEST_1_TASK_H
 #define TEST_1_TASK_H
 
-template <typename T>
+template<typename T=int>
 class Task {
 private:
     int id;
     T weight;
 
     int proc;
-    T* times;
-    T* costs;
+    T *times;
+    T *costs;
+
+private:
+    T randomizeTime();
+
+    T randomizeCost();
+
 public:
 
     Task(int id);

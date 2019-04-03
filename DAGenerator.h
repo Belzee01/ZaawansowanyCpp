@@ -13,11 +13,14 @@ using namespace std;
 
 class DAGenerator {
 private:
-    int **initializeMatrix(int rows);
-
-    std::map<int, std::list<int>> randomizeLevels(int nodes);
+    int nodes;
+    int **adjustmentMatrix;
 
 private:
+    int **initializeMatrix(int rows);
+
+    std::map<int, std::list<int>> randomizeLevels();
+
     int randomizeFromRange(int max, int min) {
         return rand() % (max - min + 1) + min;
     }
@@ -26,28 +29,27 @@ private:
         return randomizeFromRange(100, 0) < EDGE_PERCENTAGE;
     }
 
-    int **randomizeConnections(const int nodes, int **matrix, const std::map<int, std::list<int>> &levels);
+    void randomizeConnections(const std::map<int, std::list<int>> &levels);
 
-    void coverIsolatedNode(const int nodes, int **matrix);
+    void coverIsolatedNode();
 
-    void randomizeNewConnection(int **matrix, int index);
+    void randomizeNewConnection(int index);
 
-    void cleanUpMatrix(int nodes, int** matrix);
+    void cleanUpMatrix();
 
 public:
-    DAGenerator() {
-        srand(time(nullptr));
-    };
+    DAGenerator();
 
     virtual ~DAGenerator();
 
-    void generate(int nodes) {
-        int **adjustmentMatrix = initializeMatrix(nodes);
-        auto levels = randomizeLevels(nodes);
-        adjustmentMatrix = randomizeConnections(nodes, adjustmentMatrix, levels);
+    int **generate(int nodes) {
+        this->nodes = nodes;
+        this->adjustmentMatrix = initializeMatrix(nodes);
+        auto levels = randomizeLevels();
+        randomizeConnections(levels);
+        coverIsolatedNode();
 
-        coverIsolatedNode(nodes, adjustmentMatrix);
-        cleanUpMatrix(nodes, adjustmentMatrix);
+        return this->adjustmentMatrix;
     }
 };
 

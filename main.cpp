@@ -11,5 +11,12 @@ int main() {
 
     auto generator = new DAGenerator();
 
-    generator->generate(input->getTasks());
+    int** matrix = generator->generate(input->getTasks());
+
+    for (int i = 0; i < input->getTasks(); ++i) {
+        for (int j = 0; j < input->getTasks(); ++j) {
+            std::cout<<matrix[i][j]<<" ";
+        }
+        std::cout<<std::endl;
+    }
 }
