@@ -30,11 +30,11 @@ public:
         return this;
     }
 
-    int getTasks() const;
+    int getTasks();
 
-    int getProc() const;
+    int getProc();
 
-    int getComm() const;
+    int getComm();
 };
 
 

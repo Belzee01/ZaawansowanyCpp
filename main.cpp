@@ -1,6 +1,7 @@
 #include <iostream>
 #include "DAGenerator.h"
 #include "InputBuilder.h"
+#include "TasksContainer.h"
 
 using namespace std;
 
@@ -11,12 +12,18 @@ int main() {
 
     auto generator = new DAGenerator();
 
-    int** matrix = generator->generate(input->getTasks());
+    int **matrix = generator->generate(input->getTasks());
 
-    for (int i = 0; i < input->getTasks(); ++i) {
-        for (int j = 0; j < input->getTasks(); ++j) {
-            std::cout<<matrix[i][j]<<" ";
+    auto *taskContainer = new TasksContainer<int>(input->getTasks(), input->getProc(), matrix);
+
+    list<Task<int>> *tasksList = taskContainer->getTasks();
+
+    std::cout << "@tasks " << input->getTasks() << std::endl;
+    for (int k = 0; k < input->getTasks(); ++k) {
+        std::cout << "T(" << k << "): " << tasksList[k].size() << " ";
+        for (auto &it : tasksList[k]) {
+            std::cout << it.getId() << "(" << it.getWeight() << ")" << ", ";
         }
-        std::cout<<std::endl;
+        std::cout << std::endl;
     }
 }

@@ -32,9 +32,32 @@ public:
 
     Task(int id);
 
-    Task(int id, int proc);
+    Task(int id, int proc) : proc(proc), id(id) {
+        this->costs = new T[proc];
+        this->times = new T[proc];
+        this->weight = 0;
+        srand(time(0));
+    }
 
+    int getId() const {
+        return id;
+    }
 
+    T getWeight() const {
+        return weight;
+    }
+
+    int getProc() const {
+        return proc;
+    }
+
+    T *getTimes() const {
+        return times;
+    }
+
+    T *getCosts() const {
+        return costs;
+    }
 };
 
 

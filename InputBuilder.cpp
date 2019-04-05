@@ -11,14 +11,14 @@ InputBuilder::~InputBuilder() {
 
 InputBuilder::InputBuilder() : tasks(0), proc(0), comm(0) {}
 
-int InputBuilder::getTasks() const {
+int InputBuilder::getTasks() {
     return tasks;
 }
 
-int InputBuilder::getProc() const {
+int InputBuilder::getProc() {
     return proc;
 }
 
-int InputBuilder::getComm() const {
+int InputBuilder::getComm() {
     return comm;
 }
