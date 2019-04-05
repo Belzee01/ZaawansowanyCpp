@@ -11,7 +11,7 @@ using namespace std;
 int main() {
     auto input = new InputBuilder();
 
-    input->withTasks(10)->withProc(4)->withComm(1);
+    input->withTasks(10)->withProc(4)->withComm(3);
 
     std::list<Process> processes;
     for (int j = 0; j < input->getProc(); ++j) {
@@ -24,6 +24,8 @@ int main() {
 
     auto comms = new Communication[input->getComm()];
     comms[0] = *new Communication(input->getProc());
+    comms[1] = *new Communication(input->getProc());
+    comms[2] = *new Communication(input->getProc());
     Communication::coverNoConnections(comms, input->getComm(), input->getProc());
 
     list<Task<int>> *tasksList = taskContainer->getTasks();
@@ -46,7 +48,7 @@ int main() {
     for (int k = 0; k < input->getTasks(); ++k) {
         for (auto &it : tasksList[k]) {
             for (int i = 0; i < input->getProc(); ++i) {
-                std::cout << it.getTimes()[i] << " ";
+                std::cout << it.getTimes()[i] << "\t";
             }
             std::cout << std::endl;
         }
@@ -56,20 +58,18 @@ int main() {
     for (int k = 0; k < input->getTasks(); ++k) {
         for (auto &it : tasksList[k]) {
             for (int i = 0; i < input->getProc(); ++i) {
-                std::cout << it.getCosts()[i] << " ";
+                std::cout << it.getCosts()[i] << "\t";
             }
             std::cout << std::endl;
         }
     }
 
     std::cout << "@comm " << input->getComm() << std::endl;
-    int j = 0;
     for (int k = 0; k < input->getComm(); ++k) {
-        std::cout << "CHAN" << k << " " << comms[j].getCapacity() << " " << comms[j].getCost() << " ";
+        std::cout << "CHAN" << k << "\t" << comms[k].getCapacity() << "\t" << comms[k].getCost() << "\t";
         for (int i = 0; i < input->getProc(); ++i) {
-            std::cout << comms[j].getProcConnections()[i] << " ";
+            std::cout << comms[k].getProcConnections()[i] << " ";
         }
         std::cout << std::endl;
-        j++;
     }
 }
