@@ -48,7 +48,14 @@ public:
 int main() {
     auto input = new InputBuilder();
 
-    input->withTasks(10)->withProc(4)->withComm(3);
+    int a, b, c;
+    std::cout<<"Pass number of nodes: ";
+    cin>>a;
+    std::cout<<"Pass number of processes: ";
+    cin>>b;
+    std::cout<<"Pass number of communication channels: ";
+    cin>>c;
+    input->withTasks(a)->withProc(b)->withComm(c);
 
     auto generator = new DAGenerator();
     auto matrix = generator->generate(input->getTasks());

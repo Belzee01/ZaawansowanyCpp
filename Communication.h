@@ -48,7 +48,6 @@ public:
         }
         for (int k = 0; k < procSize; ++k) {
             if (z[k] == 0) {
-                std::cout << "Marking " << k << std::endl;
                 int commIndex = rand() % commSize;
                 comm[commIndex].procConnections[k] = 1;
             }
