@@ -5,15 +5,21 @@
 #ifndef TEST_1_PROCESS_H
 #define TEST_1_PROCESS_H
 
-template <typename T>
+template<typename T>
 class Process {
 public:
-    T cost;
+    T initialCost;
 
-    Process(T cost) : cost(cost) {}
+    int typeOfProcess; // 1 dedicated, 0 universal
 
-    T getCost() const {
-        return cost;
+    Process(T initialCost, int typeOfProcess) : initialCost(initialCost), typeOfProcess(typeOfProcess) {}
+
+    T getInitialCost() const {
+        return initialCost;
+    }
+
+    int getTypeOfProcess() const {
+        return typeOfProcess;
     }
 };
 

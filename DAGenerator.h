@@ -19,9 +19,11 @@ private:
 private:
     int **initializeMatrix(int rows);
 
-    std::map<int, std::list<int>> randomizeLevels();
+    std::map<int, std::list<int>> randomizeLevels(int nodes);
 
     int randomizeFromRange(int max, int min) {
+        if ((max - min + 1) < 1)
+            return rand() % (1) + min;
         return rand() % (max - min + 1) + min;
     }
 
@@ -42,15 +44,7 @@ public:
 
     virtual ~DAGenerator();
 
-    int **generate(int nodes) {
-        this->nodes = nodes;
-        this->adjustmentMatrix = initializeMatrix(nodes);
-        auto levels = randomizeLevels();
-        randomizeConnections(levels);
-        coverIsolatedNode();
-
-        return this->adjustmentMatrix;
-    }
+    int **generate(int nodes);
 };
 
 

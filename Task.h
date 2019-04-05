@@ -5,6 +5,10 @@
 #ifndef TEST_1_TASK_H
 #define TEST_1_TASK_H
 
+#include<iostream>
+#include<cstdlib>
+#include<ctime>
+
 template<typename T=int>
 class Task {
 private:
@@ -19,6 +23,10 @@ private:
     T randomizeTime();
 
     T randomizeCost();
+
+    int randomizeFromRange(int max, int min) {
+        return rand() % (max - min + 1) + min;
+    }
 
 public:
 

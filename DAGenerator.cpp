@@ -13,7 +13,6 @@ void DAGenerator::randomizeNewConnection(int index) {
 }
 
 void DAGenerator::coverIsolatedNode() {
-    std::list<int> indexes;
     for (int i = 1; i < nodes; ++i) {
         int sum = 0;
         for (int j = 0; j < nodes; ++j) {
@@ -39,16 +38,16 @@ void DAGenerator::randomizeConnections(const std::map<int, std::list<int>> &leve
     }
 }
 
-std::map<int, std::list<int>> DAGenerator::randomizeLevels() {
+std::map<int, std::list<int>> DAGenerator::randomizeLevels(int nodeNumber) {
     std::map<int, std::list<int>> levels;
     levels[0].push_back(0);
-    nodes--;
+    nodeNumber--;
 
     int i = 1;
     int currentIndex = 1;
-    while (nodes > 0) {
-        long nodesInLevel = rand() % nodes + 1;
-        nodes -= nodesInLevel;
+    while (nodeNumber > 0) {
+        long nodesInLevel = rand() % nodeNumber + 1;
+        nodeNumber -= nodesInLevel;
         for (int j = 0; j < nodesInLevel; ++j) {
             levels[i].push_back(currentIndex++);
         }
@@ -57,7 +56,7 @@ std::map<int, std::list<int>> DAGenerator::randomizeLevels() {
     return levels;
 }
 
-int **DAGenerator::initializeMatrix(int rows) {
+int **DAGenerator::initializeMatrix(const int rows) {
     int **matrix = new int *[rows];
     for (int i = 0; i < rows; ++i) {
         matrix[i] = new int[rows];
@@ -74,4 +73,14 @@ DAGenerator::~DAGenerator() {
 
 DAGenerator::DAGenerator() {
     srand(time(nullptr));
+}
+
+int **DAGenerator::generate(const int nodes) {
+    this->nodes = nodes;
+    this->adjustmentMatrix = initializeMatrix(nodes);
+    auto levels = randomizeLevels(nodes);
+    randomizeConnections(levels);
+    coverIsolatedNode();
+
+    return this->adjustmentMatrix;
 }
