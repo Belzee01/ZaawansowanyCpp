@@ -6,6 +6,7 @@
 #define TEST_1_TASKSCONTAINER_H
 
 #include "Task.h"
+#include "Process.h"
 #include <list>
 
 using namespace std;
@@ -18,7 +19,7 @@ private:
 
 public:
     //TODO change proc to list of objects reflecting the type of the process (universal or dedicated)
-    TasksContainer(int numberOfTasks, int proc, int **adjustmentMatrix) : numberOfTasks(numberOfTasks) {
+    TasksContainer(int numberOfTasks, std::list<Process> proc, int **adjustmentMatrix) : numberOfTasks(numberOfTasks) {
         this->tasks = new std::list<Task<T>>[numberOfTasks];
 
         int id = 0;

@@ -8,6 +8,8 @@
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
+#include "Process.h"
+#include <list>
 
 template<typename T=int>
 class Task {
@@ -15,28 +17,39 @@ private:
     int id;
     T weight;
 
-    int proc;
+    std::list<Process> proc;
     T *times;
     T *costs;
 
 private:
-    T randomizeTime();
+    void randomizeTimeAndCost() {
+        auto it = proc.begin();
 
-    T randomizeCost();
-
-    int randomizeFromRange(int max, int min) {
-        return rand() % (max - min + 1) + min;
+        for (int i = 0; i < this->proc.size(); ++i) {
+            if (it->getTypeOfProcess() == 0) {
+                this->times[i] = rand() % (Process::getDedicatedTimeMax() - Process::getDedicatedTimeMin()) +
+                                 Process::getDedicatedTimeMin();
+                this->costs[i] = rand() % (Process::getDedicatedCostMax() - Process::getDedicatedCostMin()) +
+                                 Process::getDedicatedCostMin();
+            } else {
+                this->times[i] = rand() % (Process::getUniversalTimeMax() - Process::getUniversalTimeMin()) +
+                                 Process::getUniversalTimeMin();
+                this->costs[i] = rand() % (Process::getUniversalCostMax() - Process::getUniversalCostMin()) +
+                                 Process::getUniversalCostMin();
+            }
+            it++;
+        }
     }
 
 public:
 
     Task(int id);
 
-    Task(int id, int proc) : proc(proc), id(id) {
-        this->costs = new T[proc];
-        this->times = new T[proc];
+    Task(int id, const std::list<Process> &proc) : proc(proc), id(id) {
+        this->costs = new T[proc.size()];
+        this->times = new T[proc.size()];
         this->weight = 0;
-        srand(time(0));
+        this->randomizeTimeAndCost();
     }
 
     int getId() const {
