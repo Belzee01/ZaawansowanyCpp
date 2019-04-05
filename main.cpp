@@ -5,6 +5,8 @@
 #include "Process.h"
 #include <list>
 #include "Communication.h"
+#include <fstream>
+#include "OutputParser.h"
 
 using namespace std;
 
@@ -61,46 +63,8 @@ int main() {
     auto tasksList = taskContainer->getTasks();
 
     ////WYPISYWANIE ------////////
-    std::cout << "@tasks " << input->getTasks() << std::endl;
-    for (int k = 0; k < input->getTasks(); ++k) {
-        std::cout << "T" << k << ": " << tasksList[k].size() << " ";
-        for (auto &it : tasksList[k]) {
-            std::cout << it.getId() << "(" << it.getWeight() << ")" << " ";
-        }
-        std::cout << std::endl;
-    }
+    auto outputParse = new OutPutParser();
+    outputParse->writeAll(input, tasksList, processes, comms);
 
-    std::cout << "@proc " << input->getProc() << std::endl;
-    for (auto &p : processes) {
-        std::cout << p.getInitialCost() << " " << p.getBandWith() << " " << p.getTypeOfProcess() << std::endl;
-    }
-
-    std::cout << "@times " << std::endl;
-    for (int k = 0; k < input->getTasks(); ++k) {
-        for (auto &it : tasksList[k]) {
-            for (int i = 0; i < input->getProc(); ++i) {
-                std::cout << it.getTimes()[i] << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }
-
-    std::cout << "@costs " << std::endl;
-    for (int k = 0; k < input->getTasks(); ++k) {
-        for (auto &it : tasksList[k]) {
-            for (int i = 0; i < input->getProc(); ++i) {
-                std::cout << it.getCosts()[i] << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }
-
-    std::cout << "@comm " << input->getComm() << std::endl;
-    for (int k = 0; k < input->getComm(); ++k) {
-        std::cout << "CHAN" << k << "\t" << comms[k].getCapacity() << "\t" << comms[k].getCost() << "\t";
-        for (int i = 0; i < input->getProc(); ++i) {
-            std::cout << comms[k].getProcConnections()[i] << " ";
-        }
-        std::cout << std::endl;
-    }
+    delete outputParse;
 }
