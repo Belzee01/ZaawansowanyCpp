@@ -4,6 +4,7 @@
 #include "TasksContainer.h"
 #include "Process.h"
 #include <list>
+#include "Communication.h"
 
 using namespace std;
 
@@ -18,10 +19,12 @@ int main() {
     }
 
     auto generator = new DAGenerator();
-
     int **matrix = generator->generate(input->getTasks());
-
     auto *taskContainer = new TasksContainer<int>(input->getTasks(), processes, matrix);
+
+    auto comms = new Communication[input->getComm()];
+    comms[0] = *new Communication(input->getProc());
+    Communication::coverNoConnections(comms, input->getComm(), input->getProc());
 
     list<Task<int>> *tasksList = taskContainer->getTasks();
 
@@ -60,7 +63,13 @@ int main() {
     }
 
     std::cout << "@comm " << input->getComm() << std::endl;
+    int j = 0;
     for (int k = 0; k < input->getComm(); ++k) {
-        std::cout << "CHAN" << k << " 15 7 1 1 1 1 " << std::endl;
+        std::cout << "CHAN" << k << " " << comms[j].getCapacity() << " " << comms[j].getCost() << " ";
+        for (int i = 0; i < input->getProc(); ++i) {
+            std::cout << comms[j].getProcConnections()[i] << " ";
+        }
+        std::cout << std::endl;
+        j++;
     }
 }

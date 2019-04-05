@@ -18,7 +18,6 @@ private:
     std::list<Task<T>> *tasks;
 
 public:
-    //TODO change proc to list of objects reflecting the type of the process (universal or dedicated)
     TasksContainer(int numberOfTasks, std::list<Process> proc, int **adjustmentMatrix) : numberOfTasks(numberOfTasks) {
         this->tasks = new std::list<Task<T>>[numberOfTasks];
 
