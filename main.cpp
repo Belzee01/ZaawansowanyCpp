@@ -8,28 +8,59 @@
 
 using namespace std;
 
+class CommunicationGenerator {
+private:
+    Communication *comms;
+
+public:
+    CommunicationGenerator(int commSize, int procSize) {
+        comms = new Communication[commSize];
+
+        for (int i = 0; i < commSize; ++i) {
+            comms[i] = *new Communication(procSize);
+        }
+        Communication::coverNoConnections(comms, commSize, procSize);
+    };
+
+    Communication *getComms() const {
+        return comms;
+    }
+};
+
+class ProcessesGenerator {
+private:
+    std::list<Process> processes;
+
+public:
+    explicit ProcessesGenerator(int proc) {
+        for (int j = 0; j < proc; ++j) {
+            processes.emplace_back(j % 2 == 0.0 ? 1 : 0);
+        }
+    };
+
+    const list<Process> &getProcesses() const {
+        return processes;
+    }
+};
+
 int main() {
     auto input = new InputBuilder();
 
     input->withTasks(10)->withProc(4)->withComm(3);
 
-    std::list<Process> processes;
-    for (int j = 0; j < input->getProc(); ++j) {
-        processes.emplace_back(j % 2 == 0.0 ? 1 : 0);
-    }
-
     auto generator = new DAGenerator();
-    int **matrix = generator->generate(input->getTasks());
-    auto *taskContainer = new TasksContainer<int>(input->getTasks(), processes, matrix);
+    auto matrix = generator->generate(input->getTasks());
 
-    auto comms = new Communication[input->getComm()];
-    comms[0] = *new Communication(input->getProc());
-    comms[1] = *new Communication(input->getProc());
-    comms[2] = *new Communication(input->getProc());
-    Communication::coverNoConnections(comms, input->getComm(), input->getProc());
+    auto processGenerator = ProcessesGenerator(input->getProc());
+    auto processes = processGenerator.getProcesses();
 
-    list<Task<int>> *tasksList = taskContainer->getTasks();
+    auto communicationGenerator = CommunicationGenerator(input->getComm(), input->getProc());
+    auto comms = communicationGenerator.getComms();
 
+    auto taskContainer = new TasksContainer<int>(input->getTasks(), processes, matrix);
+    auto tasksList = taskContainer->getTasks();
+
+    ////WYPISYWANIE ------////////
     std::cout << "@tasks " << input->getTasks() << std::endl;
     for (int k = 0; k < input->getTasks(); ++k) {
         std::cout << "T" << k << ": " << tasksList[k].size() << " ";
