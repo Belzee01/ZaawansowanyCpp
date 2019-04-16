@@ -1,3 +1,7 @@
+//
+// Created by Kajetan Lipensky on 2019-04-05.
+//
+
 #include "DAGenerator.h"
 
 void DAGenerator::cleanUpMatrix() {

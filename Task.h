@@ -11,7 +11,7 @@
 #include "Process.h"
 #include <list>
 
-template<typename T=int>
+template<typename T>
 class Task {
 private:
     int id;
@@ -43,7 +43,7 @@ private:
 
 public:
 
-    Task(int id);
+	Task(int id) {}
 
     Task(int id, const std::list<Process> &proc) : proc(proc), id(id) {
         this->costs = new T[proc.size()];

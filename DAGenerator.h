@@ -1,3 +1,7 @@
+//
+// Created by Kajetan Lipensky on 2019-04-05.
+//
+
 #ifndef TEST_1_DAGENERATOR_H
 #define TEST_1_DAGENERATOR_H
 
