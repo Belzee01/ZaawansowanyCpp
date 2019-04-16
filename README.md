@@ -4,9 +4,9 @@ In order to run this application you will need:
 - CMake
 
 How to run:
-There are two ways to run the program. First is:
+\There are two ways to run the program. \First is:
 1. Visual Studio:
-- there added solution and project files, so there should be not problem importing/openning the project in Visual Studio compatibile with version 2019 Community Edition in which this project has been prepared.
+- there are added solution and project files, so there should be not problem importing/openning the project in Visual Studio compatibile with version 2019 Community Edition in which this project has been prepared.
 
 2. Using CMake:
 - you will need cmake version at least 3.5.1 
