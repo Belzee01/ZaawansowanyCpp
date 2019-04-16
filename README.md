@@ -10,14 +10,14 @@ There are two ways to run the program. First is:
 
 2. Using CMake:
 - you will need cmake version at least 3.5.1 
-- project folder run:<br/>
+- in project folder run:<br/>
 `cmake .`<br/>
 then<br/>
 `make`<br/>
 then<br/>
 `./test_1`<br/>
 
-After you have used on of the presented methods to run the program you should see command prompt window asking you to pass three variables:
+After you have used one of the presented methods to run the program you should see command prompt window asking you to pass three variables:
 - number of tasks
 - number of processes
 - number of communication channels
