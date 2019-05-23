@@ -8,19 +8,17 @@
 using testing::Eq;
 
 namespace {
-    class ClassDeclaration : public testing::Test {
+    class TasksTests : public testing::Test {
     public:
-        Task task;
-        ClassDeclaration() {
-            task;
+        TasksTests() {
         }
     };
 }
 
-TEST_F(ClassDeclaration, shouldRandomizeRangeAndCostForDedicatedProcess) {
+TEST_F(TasksTests, shouldRandomizeRangeAndCostForDedicatedProcess) {
     ASSERT_EQ("", "");
 }
 
-TEST_F(ClassDeclaration, shouldRandomizeRangeAndCostForUniversalProcess) {
+TEST_F(TasksTests, shouldRandomizeRangeAndCostForUniversalProcess) {
     ASSERT_EQ("", "");
 }

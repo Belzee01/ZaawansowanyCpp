@@ -4,55 +4,95 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../DAGenerator.h"
+#include <map>
+#include <list>
 
 using testing::Eq;
 
 namespace {
-    class ClassDeclaration : public testing::Test {
+    class GeneratorTests : public testing::Test {
     public:
         DAGenerator generator;
-        ClassDeclaration() {
+
+        GeneratorTests() {
             generator;
         }
     };
 }
 
-TEST_F(ClassDeclaration, shouldInitializeMatrix) {
-    ASSERT_EQ("", "");
+TEST_F(GeneratorTests, shouldInitializeMatrix) {
+    //given
+    int numberOfRows = 3;
+
+    //when
+    int **matrix = generator.initializeMatrix(numberOfRows);
+
+    //then
+    ASSERT_NE(matrix, nullptr);
+    for (int i = 0; i < numberOfRows; ++i) {
+        for (int j = 0; j < numberOfRows; ++j) {
+            ASSERT_EQ(matrix[i][j], 0);
+        }
+    }
 }
 
-TEST_F(ClassDeclaration, shouldRandomizeLevels) {
+TEST_F(GeneratorTests, shouldRandomizeLevels) {
+    //given
+    int numberOfNodes = 10;
+
+    //when
+    std::map<int, std::list<int>> levels = generator.randomizeLevels(numberOfNodes);
+
+    //then
+    ASSERT_NE(levels, nullptr);
+    ASSERT_GT(levels.size(), 0);
+    ASSERT_LT(levels.size(), numberOfNodes + 1);
+}
+
+TEST_F(GeneratorTests, shouldFailToRandomizeLevelsWhenInvalidNumberOfNodesPassed) {
+    //given
+    int numberOfNodes = -1;
+
+    //when
+    std::map<int, std::list<int>> levels = generator.randomizeLevels(numberOfNodes);
+
+    //then
+    ASSERT_EQ(levels.size(), 1);
+}
+
+TEST_F(GeneratorTests, shouldRandomizeFromRange) {
+    //given
+    int min = -1;
+    int max = 1;
+
+    //when
+    int randomFromRange = generator.randomizeFromRange(max, min);
+
+    //then
+    ASSERT_GT(randomFromRange, -1);
+    ASSERT_LT(randomFromRange, 1);
+}
+
+TEST_F(GeneratorTests, shouldRandomizeConnections) {
     ASSERT_EQ("", "1");
 }
 
-TEST_F(ClassDeclaration, shouldFailToRandomizeLevelsWhenInvalidNumberOfNodesPassed) {
+TEST_F(GeneratorTests, shouldCoverIsolatedNodes) {
     ASSERT_EQ("", "1");
 }
 
-TEST_F(ClassDeclaration, shouldRandomizeFromRange) {
+TEST_F(GeneratorTests, shouldRandomizeNewConnectionByIndex) {
     ASSERT_EQ("", "1");
 }
 
-TEST_F(ClassDeclaration, shouldRandomizeConnections) {
+TEST_F(GeneratorTests, shouldFailToRandomizeNewConnectionWhenInvalidIndexPassed) {
     ASSERT_EQ("", "1");
 }
 
-TEST_F(ClassDeclaration, shouldCoverIsolatedNodes) {
+TEST_F(GeneratorTests, shouldGenerateGraphBasedOnNumberOfNodes) {
     ASSERT_EQ("", "1");
 }
 
-TEST_F(ClassDeclaration, shouldRandomizeNewConnectionByIndex) {
-    ASSERT_EQ("", "1");
-}
-
-TEST_F(ClassDeclaration, shouldFailToRandomizeNewConnectionWhenInvalidIndexPassed) {
-    ASSERT_EQ("", "1");
-}
-
-TEST_F(ClassDeclaration, shouldGenerateGraphBasedOnNumberOfNodes) {
-    ASSERT_EQ("", "1");
-}
-
-TEST_F(ClassDeclaration, shouldFailOnGeneratingGraphWhenInvalidNumberOfNodesPassed) {
+TEST_F(GeneratorTests, shouldFailOnGeneratingGraphWhenInvalidNumberOfNodesPassed) {
     ASSERT_EQ("", "1");
 }

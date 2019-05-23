@@ -20,9 +20,7 @@ private:
     int nodes;
     int **adjustmentMatrix;
 
-private:
-    int **initializeMatrix(int rows);
-
+public:
     std::map<int, std::list<int>> randomizeLevels(int nodes);
 
     int randomizeFromRange(int max, int min) {
@@ -43,7 +41,8 @@ private:
 
     void cleanUpMatrix();
 
-public:
+    int **initializeMatrix(int rows);
+
     DAGenerator();
 
     virtual ~DAGenerator();

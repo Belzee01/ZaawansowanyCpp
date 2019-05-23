@@ -8,15 +8,13 @@
 using testing::Eq;
 
 namespace {
-    class ClassDeclaration : public testing::Test {
+    class InputBuilderTests : public testing::Test {
     public:
-        InputBuilder builder;
-        ClassDeclaration() {
-            builder;
+        InputBuilderTests() {
         }
     };
 }
 
-TEST_F(ClassDeclaration, shouldProperlySetValuesForInput) {
+TEST_F(InputBuilderTests, shouldProperlySetValuesForInput) {
     ASSERT_EQ("", "");
 }
