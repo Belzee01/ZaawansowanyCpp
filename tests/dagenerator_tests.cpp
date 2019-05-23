@@ -12,10 +12,7 @@ using testing::Eq;
 namespace {
     class GeneratorTests : public testing::Test {
     public:
-        DAGenerator generator;
-
         GeneratorTests() {
-            generator;
         }
     };
 }
@@ -23,9 +20,10 @@ namespace {
 TEST_F(GeneratorTests, shouldInitializeMatrix) {
     //given
     int numberOfRows = 3;
+    auto generator = new DAGenerator();
 
     //when
-    int **matrix = generator.initializeMatrix(numberOfRows);
+    int **matrix = generator->initializeMatrix(numberOfRows);
 
     //then
     ASSERT_NE(matrix, nullptr);
@@ -39,12 +37,12 @@ TEST_F(GeneratorTests, shouldInitializeMatrix) {
 TEST_F(GeneratorTests, shouldRandomizeLevels) {
     //given
     int numberOfNodes = 10;
+    auto generator = new DAGenerator();
 
     //when
-    std::map<int, std::list<int>> levels = generator.randomizeLevels(numberOfNodes);
+    std::map<int, std::list<int>> levels = generator->randomizeLevels(numberOfNodes);
 
     //then
-    ASSERT_NE(levels, nullptr);
     ASSERT_GT(levels.size(), 0);
     ASSERT_LT(levels.size(), numberOfNodes + 1);
 }
@@ -52,25 +50,27 @@ TEST_F(GeneratorTests, shouldRandomizeLevels) {
 TEST_F(GeneratorTests, shouldFailToRandomizeLevelsWhenInvalidNumberOfNodesPassed) {
     //given
     int numberOfNodes = -1;
+    auto generator = new DAGenerator();
 
     //when
-    std::map<int, std::list<int>> levels = generator.randomizeLevels(numberOfNodes);
+    std::map<int, std::list<int>> levels = generator->randomizeLevels(numberOfNodes);
 
     //then
     ASSERT_EQ(levels.size(), 1);
 }
 
-TEST_F(GeneratorTests, shouldRandomizeFromRange) {
+TEST_F(GeneratorTests, shouldRandomizeFromRangeInclusive) {
     //given
     int min = -1;
     int max = 1;
+    auto generator = new DAGenerator();
 
     //when
-    int randomFromRange = generator.randomizeFromRange(max, min);
+    int randomFromRange = generator->randomizeFromRange(max, min);
 
     //then
-    ASSERT_GT(randomFromRange, -1);
-    ASSERT_LT(randomFromRange, 1);
+    ASSERT_GE(randomFromRange, -1);
+    ASSERT_LE(randomFromRange, 1);
 }
 
 TEST_F(GeneratorTests, shouldRandomizeConnections) {

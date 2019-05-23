@@ -16,5 +16,14 @@ namespace {
 }
 
 TEST_F(InputBuilderTests, shouldProperlySetValuesForInput) {
-    ASSERT_EQ("", "");
+    //given
+    InputBuilder builder;
+
+    //when
+    builder.withComm(1)->withProc(2)->withTasks(3);
+
+    //then
+    ASSERT_EQ(builder.getComm(), 1);
+    ASSERT_EQ(builder.getProc(), 2);
+    ASSERT_EQ(builder.getTasks(), 3);
 }

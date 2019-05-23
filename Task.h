@@ -21,7 +21,7 @@ private:
     T *times;
     T *costs;
 
-private:
+public:
     void randomizeTimeAndCost() {
         auto it = proc.begin();
 
@@ -40,8 +40,6 @@ private:
             it++;
         }
     }
-
-public:
 
 	Task(int id) {}
 
