@@ -73,26 +73,39 @@ TEST_F(GeneratorTests, shouldRandomizeFromRangeInclusive) {
     ASSERT_LE(randomFromRange, 1);
 }
 
-TEST_F(GeneratorTests, shouldRandomizeConnections) {
-    ASSERT_EQ("", "1");
-}
-
-TEST_F(GeneratorTests, shouldCoverIsolatedNodes) {
-    ASSERT_EQ("", "1");
-}
-
 TEST_F(GeneratorTests, shouldRandomizeNewConnectionByIndex) {
-    ASSERT_EQ("", "1");
+    //given
+    int rows = 2;
+    auto generator = new DAGenerator();
+
+    //when
+    int **matrix = generator->initializeMatrix(rows);
+    generator->setAdjustmentMatrix(matrix);
+    generator->randomizeNewConnection(0);
+
+    //then
+    int **adjMat = generator->getAdjustmentMatrix();
+    ASSERT_EQ(adjMat[0][0], 1);
 }
 
 TEST_F(GeneratorTests, shouldFailToRandomizeNewConnectionWhenInvalidIndexPassed) {
-    ASSERT_EQ("", "1");
-}
+    //given
+    int rows = 2;
+    auto generator = new DAGenerator();
 
-TEST_F(GeneratorTests, shouldGenerateGraphBasedOnNumberOfNodes) {
-    ASSERT_EQ("", "1");
+    //when
+    int **matrix = generator->initializeMatrix(rows);
+    generator->setAdjustmentMatrix(matrix);
+
+    //then
+    ASSERT_THROW(generator->randomizeNewConnection(-1), out_of_range);
 }
 
 TEST_F(GeneratorTests, shouldFailOnGeneratingGraphWhenInvalidNumberOfNodesPassed) {
-    ASSERT_EQ("", "1");
+    //given
+    int nodes = -1;
+    auto generator = new DAGenerator();
+
+    //expect
+    ASSERT_THROW(generator->generate(nodes), bad_alloc);
 }

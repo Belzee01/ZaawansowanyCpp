@@ -45,9 +45,15 @@ public:
 
     DAGenerator();
 
+    DAGenerator(int nodes, int **adjustmentMatrix);
+
     virtual ~DAGenerator();
 
     int **generate(int nodes);
+
+    int **getAdjustmentMatrix() const;
+
+    void setAdjustmentMatrix(int **adjustmentMatrix);
 };
 
 

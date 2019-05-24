@@ -12,6 +12,8 @@ void DAGenerator::cleanUpMatrix() {
 }
 
 void DAGenerator::randomizeNewConnection(int index) {
+    if (index < 0)
+        throw out_of_range("index cannot be less than 0");
     int upperNodeIndex = randomizeFromRange(index - 1, 0);
     this->adjustmentMatrix[upperNodeIndex][index] = 1;
 }
@@ -87,4 +89,14 @@ int **DAGenerator::generate(const int nodes) {
     coverIsolatedNode();
 
     return this->adjustmentMatrix;
+}
+
+DAGenerator::DAGenerator(int nodes, int **adjustmentMatrix) : nodes(nodes), adjustmentMatrix(adjustmentMatrix) {}
+
+int **DAGenerator::getAdjustmentMatrix() const {
+    return adjustmentMatrix;
+}
+
+void DAGenerator::setAdjustmentMatrix(int **adjustmentMatrix) {
+    DAGenerator::adjustmentMatrix = adjustmentMatrix;
 }
